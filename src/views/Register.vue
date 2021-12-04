@@ -3,11 +3,29 @@
   <v-form>
     <v-container id="rowid">
       <v-card elevation="10" outlined width="350" tile>
-    <h3 style="margin-top: 10px; margin-bottom: 10px;">Log In</h3>
+    <h3 style="margin-top: 10px; margin-bottom: 10px;">Register</h3>
           <v-card-text style="padding: 20px">
           <v-row>
             <v-text-field
-            filled
+                filled
+                type="text"
+                v-model="me"
+                label="First Name"
+                clearable
+              ></v-text-field>
+          </v-row>
+          <v-row>
+            <v-text-field
+                filled
+                type="text"
+                v-model="me"
+                label="Last Name"
+                clearable
+              ></v-text-field>
+          </v-row>
+          <v-row>
+            <v-text-field
+                filled
                 type="text"
                 v-model="me"
                 label="Username"
@@ -18,25 +36,36 @@
               <v-text-field
                 filled
                 v-model="msg1"
-                type="password"
-                label="Password"
+                label="Email"
+                clearable
+              ></v-text-field>
+          </v-row>
+          <v-row>
+              <v-text-field
+                filled
+                v-model="msg1"
+                label="Phone"
+                placeholder="+123(456)789"
+                type="Phone"
                 clearable
               ></v-text-field>
           </v-row>
         </v-card-text>
         <v-card-actions id="loginid">
-        <v-btn redirect to="/register"
+         <v-btn
+        redirect to="/login"
           style="padding: 15px"
           color="primary"
         >
-            Register
+           Back
         </v-btn>
         <v-btn
           style="padding: 15px"
           color="primary"
         >
-          Log In
-        </v-btn> 
+            Register
+        </v-btn>
+       
         </v-card-actions>
       </v-card>
     </v-container>
