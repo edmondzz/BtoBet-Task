@@ -9,7 +9,7 @@
             <v-text-field
                 filled
                 type="text"
-                v-model="me"
+                v-model="firstName"
                 label="First Name"
                 clearable
               ></v-text-field>
@@ -18,7 +18,7 @@
             <v-text-field
                 filled
                 type="text"
-                v-model="me"
+                v-model="lastName"
                 label="Last Name"
                 clearable
               ></v-text-field>
@@ -27,7 +27,7 @@
             <v-text-field
                 filled
                 type="text"
-                v-model="me"
+                v-model="username"
                 label="Username"
                 clearable
               ></v-text-field>
@@ -35,7 +35,7 @@
           <v-row>
               <v-text-field
                 filled
-                v-model="msg1"
+                v-model="email"
                 label="Email"
                 clearable
               ></v-text-field>
@@ -43,17 +43,26 @@
           <v-row>
               <v-text-field
                 filled
-                v-model="msg1"
+                v-model="phone"
                 label="Phone"
                 placeholder="+123(456)789"
                 type="Phone"
                 clearable
               ></v-text-field>
           </v-row>
+           <v-row>
+              <v-text-field
+                filled
+                v-model="password"
+                type="password"
+                label="Password"
+                clearable
+              ></v-text-field>
+          </v-row>
         </v-card-text>
         <v-card-actions id="loginid">
          <v-btn
-        redirect to="/login"
+          redirect to="/login"
           style="padding: 15px"
           color="primary"
         >
@@ -62,6 +71,7 @@
         <v-btn
           style="padding: 15px"
           color="primary"
+          @click="register"
         >
             Register
         </v-btn>
@@ -78,7 +88,49 @@
 
 <script>
 export default {
+   data: () => ({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    username: '',
+    password: '',
+    error: false,
+    users: [],
+  }),
+  methods: {
+    register() {
+      if(localStorage.getItem('users')) {
+        this.users = JSON.parse(localStorage.getItem('users'));
+        const user = {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          phone: this.phone,
+          username: this.username,
+          password: this.password,
+        };
+        this.users.push(user);
+        localStorage.setItem('users', JSON.stringify(this.users));
 
+      } else {
+        this.users = [];
+
+        const user = {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          phone: this.phone,
+          username: this.username,
+          password: this.password,
+        };
+
+        this.users.push(user);
+        localStorage.setItem('users', JSON.stringify(this.users));
+      }
+      this.$router.push('login');
+    },
+  }
 }
 </script>
 

@@ -55,7 +55,7 @@
                     md="4"
                   >
                     <v-text-field
-                      v-model="editedItem.calories"
+                      v-model="editedItem.eventdate"
                       label="Event date"
                     ></v-text-field>
                   </v-col>
@@ -65,7 +65,7 @@
                     md="4"
                   >
                     <v-text-field
-                      v-model="editedItem.fat"
+                      v-model="editedItem.eventdescription"
                       label="Event Description"
                     ></v-text-field>
                   </v-col>
@@ -94,7 +94,7 @@
         </v-dialog>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="text-h5">Are you sure you want to delete this event?</v-card-title>
+            <v-card-title class="text-h6">Are you sure you want to delete this event?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
@@ -142,24 +142,19 @@
           sortable: false,
           value: 'name',
         },
-        { text: 'Event date', value: 'calories', sortable: false },
-        { text: 'Event Description', value: 'fat', sortable: false  },
+        { text: 'Event date', value: 'eventdate', sortable: false },
+        { text: 'Event Description', value: 'eventdescription', sortable: false  },
+        { text: 'Actions', value: 'actions', sortable: false }
       ],
       event: [],
       editedIndex: -1,
       editedItem: {
         name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
       },
       defaultItem: {
         name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        eventdate: '',
+        eventdescription: '',
       },
     }),
 
@@ -187,10 +182,6 @@
         this.event = [
           {
             name: 'First Event',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
           },
         ]
       },

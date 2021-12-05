@@ -6,10 +6,17 @@
     <h3 style="margin-top: 10px; margin-bottom: 10px;">Log In</h3>
           <v-card-text style="padding: 20px">
           <v-row>
+          <v-alert
+            color="error"
+            :value="error"
+            icon="close"
+          >
+            The username or password are incorrect
+          </v-alert>
             <v-text-field
             filled
                 type="text"
-                v-model="me"
+                v-model="username"
                 label="Username"
                 clearable
               ></v-text-field>
@@ -17,7 +24,7 @@
           <v-row>
               <v-text-field
                 filled
-                v-model="msg1"
+                v-model="password"
                 type="password"
                 label="Password"
                 clearable
@@ -32,6 +39,7 @@
             Register
         </v-btn>
         <v-btn
+          @click="login"
           style="padding: 15px"
           color="primary"
         >
@@ -49,6 +57,28 @@
 
 <script>
 export default {
+  name: "login",
+  data: () => ({
+    username: '',
+    password: '',
+    error: false
+  }),
+  methods:{
+    login(){
+      const users = JSON.parse(localStorage.getItem('users'));
+
+      const registeredUsers = users.filter(u => u.username === this.username && u.password === this.password);
+
+      if (registeredUsers.length) {
+        localStorage.setItem('isAuthenticated', JSON.stringify(true));
+        this.$router.push('/');
+      } else {
+        // Show message
+        console.log('Username or password incorect!');
+        localStorage.setItem('isAuthenticated', JSON.stringify(false));
+      }
+    }
+  }
 
 }
 </script>
