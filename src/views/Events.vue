@@ -21,21 +21,30 @@
           max-width="500px"
         >
           <template v-slot:activator="{ on, attrs }">
+            <v-card-actions>
+        <v-btn
+        redirect to="/login"
+          style="padding: 15px"
+          color="primary"
+        >
+        Log Out
+        </v-btn> 
+        </v-card-actions>
             <v-btn
-              color="primary"
+              color="secondary"
               dark
-              class="mb-2"
               v-bind="attrs"
               v-on="on"
             >
              Create Event
             </v-btn>
+          
           </template>
           <v-card>
             <v-card-title>
               <span class="text-h5">{{ formTitle }}</span>
             </v-card-title>
-
+          <v-divider></v-divider>
             <v-card-text>
               <v-container>
                 <v-row>
@@ -56,18 +65,19 @@
                   >
                     <v-text-field
                       v-model="editedItem.date"
+                      placeholder="dd/mm/yyyy"
                       label="Event date"
                     ></v-text-field>
                   </v-col>
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="4"
+                    sm="12"
                   >
-                    <v-text-field
+                    <v-textarea
+                    outlined
                       v-model="editedItem.description"
                       label="Event Description"
-                    ></v-text-field>
+                    ></v-textarea>
                   </v-col>
                 </v-row>
               </v-container>
@@ -76,15 +86,14 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
-                color="blue darken-1"
-                text
+                color="secondary"
+
                 @click="close"
               >
                 Cancel
               </v-btn>
               <v-btn
-                color="blue darken-1"
-                text
+                color="primary"
                 @click="save"
               >
                 Save
@@ -110,12 +119,14 @@
         small
         class="mr-2"
         @click="editItem(item)"
+        color="primary"
       >
         mdi-pencil
       </v-icon>
       <v-icon
         small
         @click="deleteItem(item)"
+        color="error"
       >
         mdi-delete
       </v-icon>

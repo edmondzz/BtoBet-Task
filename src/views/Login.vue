@@ -48,9 +48,6 @@
         </v-card-actions>
       </v-card>
     </v-container>
-        <a href=".." class="text-blueGray-200">
-          <small>Forgot password</small>
-        </a>
   </v-form>
   </div>
 </template>
@@ -73,8 +70,7 @@ export default {
         localStorage.setItem('isAuthenticated', JSON.stringify(true));
         this.$router.push('/');
       } else {
-        // Show message
-        console.log('Username or password incorect!');
+       alert('invalid username or password')
         localStorage.setItem('isAuthenticated', JSON.stringify(false));
       }
     }
