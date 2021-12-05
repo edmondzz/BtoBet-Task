@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="event"
+    :items="events"
     sort-by="calories"
     class="elevation-1"
   >
@@ -55,7 +55,7 @@
                     md="4"
                   >
                     <v-text-field
-                      v-model="editedItem.eventdate"
+                      v-model="editedItem.date"
                       label="Event date"
                     ></v-text-field>
                   </v-col>
@@ -65,7 +65,7 @@
                     md="4"
                   >
                     <v-text-field
-                      v-model="editedItem.eventdescription"
+                      v-model="editedItem.description"
                       label="Event Description"
                     ></v-text-field>
                   </v-col>
@@ -137,19 +137,21 @@
       dialogDelete: false,
       headers: [
         {
-          text: 'Event Name',
+          text: 'Name',
           align: 'start',
           sortable: false,
           value: 'name',
         },
-        { text: 'Event date', value: 'eventdate', sortable: false },
-        { text: 'Event Description', value: 'eventdescription', sortable: false  },
+        { text: 'Date', value: 'date', sortable: false },
+        { text: 'Description', value: 'description', sortable: false  },
         { text: 'Actions', value: 'actions', sortable: false }
       ],
-      event: [],
+      events: [],
       editedIndex: -1,
       editedItem: {
         name: '',
+        date: '',
+        desription: '',
       },
       defaultItem: {
         name: '',
@@ -179,27 +181,28 @@
 
     methods: {
       initialize () {
-        this.event = [
-          {
-            name: 'First Event',
-          },
-        ]
+        if (localStorage.getItem('events')) {
+          this.events = JSON.parse(localStorage.getItem('events'));
+        } else {
+          localStorage.setItem('events', JSON.stringify([]));
+        }
       },
 
       editItem (item) {
-        this.editedIndex = this.event.indexOf(item)
+        this.editedIndex = this.events.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
 
       deleteItem (item) {
-        this.editedIndex = this.event.indexOf(item)
+        this.editedIndex = this.events.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
 
       deleteItemConfirm () {
-        this.event.splice(this.editedIndex, 1)
+        this.events.splice(this.editedIndex, 1)
+        localStorage.setItem('events', JSON.stringify(this.events));
         this.closeDelete()
       },
 
@@ -221,10 +224,11 @@
 
       save () {
         if (this.editedIndex > -1) {
-          Object.assign(this.event[this.editedIndex], this.editedItem)
+          Object.assign(this.events[this.editedIndex], this.editedItem)
         } else {
-          this.event.push(this.editedItem)
+          this.events.push(this.editedItem)
         }
+        localStorage.setItem('events', JSON.stringify(this.events));
         this.close()
       },
     },
