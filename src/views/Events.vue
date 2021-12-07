@@ -55,6 +55,7 @@
                   >
                     <v-text-field
                       v-model="editedItem.name"
+                      required
                       label="Event Name"
                     ></v-text-field>
                   </v-col>
@@ -63,11 +64,45 @@
                     sm="6"
                     md="4"
                   >
+               <v-menu
+                  ref="menu"
+                  v-model="menu"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                       v-model="editedItem.date"
-                      placeholder="dd/mm/yyyy"
-                      label="Event date"
+                      label="Picker in menu"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
                     ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="editedItem.date"
+                    no-title
+                    scrollable
+                  >
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="menu = false"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="primary"
+                      @click="$refs.menu.save(date)"
+                    >
+                      OK
+                    </v-btn>
+                  </v-date-picker>
+                </v-menu>
                   </v-col>
                   <v-col
                     cols="12"
@@ -144,6 +179,10 @@
 <script>
   export default {
     data: () => ({
+      date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      menu: false,
+      modal: false,
+      menu2: false,
       dialog: false,
       dialogDelete: false,
       headers: [
@@ -161,7 +200,7 @@
       editedIndex: -1,
       editedItem: {
         name: '',
-        date: '',
+        date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         desription: '',
       },
       defaultItem: {
